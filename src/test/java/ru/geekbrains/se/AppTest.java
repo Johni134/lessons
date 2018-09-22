@@ -1,20 +1,29 @@
 package ru.geekbrains.se;
 
-import static org.junit.Assert.assertTrue;
-
+import org.junit.Before;
 import org.junit.Test;
+import ru.geekbrains.se.base.PhoneBase;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * Unit test for simple App.
  */
 public class AppTest 
 {
+    private final PhoneBase phoneBase = new PhoneBase();
+
+    @Before
+    public void setUpData() {
+        phoneBase.add("TestUser", "123");
+    }
+
     /**
-     * Rigorous Test :-)
+     * Test for phone base
      */
     @Test
-    public void shouldAnswerWithTrue()
-    {
-        assertTrue( true );
+    public void testPhoneBase() {
+        assertEquals(phoneBase.findPhonesBySurname("TestUser"), phoneBase.getFormattedSearchString("TestUser") + "[123]");
     }
+
 }
