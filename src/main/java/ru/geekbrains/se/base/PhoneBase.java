@@ -11,7 +11,7 @@ import static ru.geekbrains.se.util.Constants.SEARCH_BY_SURNAME;
  */
 public final class PhoneBase {
 
-    private HashMap<String, HashSet<String>> phoneBase = new HashMap<>();
+    private final HashMap<String, HashSet<String>> phoneBase = new HashMap<>();
 
     /**
      * Add a phone to a surname
@@ -23,7 +23,7 @@ public final class PhoneBase {
         if (phoneBase.containsKey(surname)) {
             phoneBase.get(surname).add(phone);
         } else {
-            HashSet<String> phones = new HashSet<>();
+            final HashSet<String> phones = new HashSet<>();
             phones.add(phone);
             phoneBase.put(surname, phones);
         }
@@ -36,7 +36,7 @@ public final class PhoneBase {
      * @return string, that we found by the surname (or not found)
      */
     public String findPhonesBySurname(String surname) {
-        StringBuilder stringBuilder = new StringBuilder();
+        final StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(getFormattedSearchString(surname));
         if (phoneBase.containsKey(surname)) {
             stringBuilder.append(phoneBase.get(surname).toString());

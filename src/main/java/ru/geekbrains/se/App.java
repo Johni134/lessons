@@ -11,8 +11,8 @@ public class App
     {
         // 1
         System.out.println("---------------------------------------1---------------------------------------");
-        String[] words = {"Поезд", "Самолет", "Вертолет", "Лодка", "Корабль", "Пароход", "Поезд", "Автомобиль", "Лодка", "Самокат", "Поезд", "Велосипед", "Лодка", "Вертолет"};
-        WordsArray workWithWords = new WordsArray(words);
+        final String[] words = {"Поезд", "Самолет", "Вертолет", "Лодка", "Корабль", "Пароход", "Поезд", "Автомобиль", "Лодка", "Самокат", "Поезд", "Велосипед", "Лодка", "Вертолет"};
+        final WordsArray workWithWords = new WordsArray(words);
         System.out.println("Заданный массив:");
         System.out.println(workWithWords.getList());
         System.out.println("Уникальные слова:");

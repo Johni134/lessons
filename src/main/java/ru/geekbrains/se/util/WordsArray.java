@@ -1,9 +1,6 @@
 package ru.geekbrains.se.util;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
+import java.util.*;
 
 /**
  * Work with words
@@ -16,7 +13,7 @@ public final class WordsArray {
         wordsArray = new ArrayList<>(Arrays.asList(words));
     }
 
-    public ArrayList<String> getList() {
+    public List<String> getList() {
         return wordsArray;
     }
 
@@ -25,7 +22,7 @@ public final class WordsArray {
      *
      * @return hash set, that contains unique words
      */
-    public HashSet<String> getUniqueWords() {
+    public Set<String> getUniqueWords() {
         return new HashSet<>(wordsArray);
     }
 
@@ -34,8 +31,8 @@ public final class WordsArray {
      *
      * @return hash map, that contains word->count
      */
-    public HashMap<String, Integer> getWordsCount() {
-        HashMap<String, Integer> hashMap = new HashMap<>();
+    public Map<String, Integer> getWordsCount() {
+        Map<String, Integer> hashMap = new HashMap<>();
         for (String word : wordsArray) {
             hashMap.put(word, hashMap.getOrDefault(word, 0) + 1);
         }
