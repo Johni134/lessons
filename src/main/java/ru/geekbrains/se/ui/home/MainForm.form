@@ -8,7 +8,7 @@
     <properties/>
     <border type="none"/>
     <children>
-      <scrollpane id="7f821">
+      <scrollpane id="7f821" binding="scrollPaneChat">
         <constraints>
           <grid row="0" column="0" row-span="1" col-span="2" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
         </constraints>
@@ -18,7 +18,7 @@
           <component id="966dc" class="javax.swing.JTextPane" binding="textPaneChat">
             <constraints/>
             <properties>
-              <contentType value="text/plain"/>
+              <contentType resource-bundle="config" key="text.plain"/>
               <editable value="false"/>
             </properties>
           </component>
@@ -37,7 +37,8 @@
           <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <actionCommand value="Send"/>
+          <actionCommand resource-bundle="config" key="send"/>
+          <label resource-bundle="config" key="send"/>
           <text resource-bundle="config" key="send"/>
         </properties>
       </component>

@@ -15,6 +15,7 @@ public class MainForm extends JFrame {
     private JTextField textFieldMain;
     private JButton buttonSend;
     private JPanel panelMain;
+    private JScrollPane scrollPaneChat;
 
     /**
      * main form constructor
