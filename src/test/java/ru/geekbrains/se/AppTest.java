@@ -1,20 +1,8 @@
 package ru.geekbrains.se;
 
-import static org.junit.Assert.assertTrue;
+public class AppTest {
+    //private final ArrayFillTest arrayFillTest;
 
-import org.junit.Test;
+    //@Before
 
-/**
- * Unit test for simple App.
- */
-public class AppTest 
-{
-    /**
-     * Rigorous Test :-)
-     */
-    @Test
-    public void shouldAnswerWithTrue()
-    {
-        assertTrue( true );
-    }
 }

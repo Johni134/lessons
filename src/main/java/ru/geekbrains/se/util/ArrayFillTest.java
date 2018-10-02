@@ -1,5 +1,7 @@
 package ru.geekbrains.se.util;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -10,7 +12,6 @@ public class ArrayFillTest {
 
     // fixed array capacity
     private final int size = 10000000;
-    private final int h = size / 2;
     private final float[] arr = new float[size];
 
     /**
@@ -25,9 +26,9 @@ public class ArrayFillTest {
      */
     public void testSimpleMethod() {
         initArray();
-        final long a = System.currentTimeMillis();
+        final long beginTime = System.currentTimeMillis();
         fillArrayByFunction(arr, size, 0);
-        System.out.println(System.currentTimeMillis() - a);
+        System.out.println(System.currentTimeMillis() - beginTime);
     }
 
     /**
@@ -37,7 +38,7 @@ public class ArrayFillTest {
      * @param currentSize size of array
      * @param beginValue  value for supporting correct values
      */
-    private void fillArrayByFunction(float[] array, int currentSize, int beginValue) {
+    private void fillArrayByFunction(@NotNull final float[] array, final int currentSize, final int beginValue) {
         for (int i = 0; i < currentSize; i++) {
             array[i] = (float) (array[i] * Math.sin(0.2f + (i + beginValue) / 5.0f)
                     * Math.cos(0.2f + (i + beginValue) / 5.0f)
@@ -50,11 +51,11 @@ public class ArrayFillTest {
      *
      * @param arrayCount we can use different arrays count
      */
-    public void testMethodWithDividingArrayByThreads(int arrayCount) {
+    public void testMethodWithDividingArrayByThreads(final int arrayCount) {
         initArray();
-        final long a = System.currentTimeMillis();
+        final long beginTime = System.currentTimeMillis();
         divideArrayAndFillByFunctionInThreads(arrayCount);
-        System.out.println(System.currentTimeMillis() - a);
+        System.out.println(System.currentTimeMillis() - beginTime);
     }
 
     /**
@@ -62,7 +63,7 @@ public class ArrayFillTest {
      *
      * @param arrayCount count of arrays
      */
-    private void divideArrayAndFillByFunctionInThreads(int arrayCount) {
+    private void divideArrayAndFillByFunctionInThreads(final int arrayCount) {
         // size for each array
         int eachSize = size / arrayCount;
         // size for copy (this maked for the last array)
@@ -93,21 +94,18 @@ public class ArrayFillTest {
         }
 
         // starting threads
-        for (Thread curThread :
-                threadsList) {
+        for (Thread curThread : threadsList) {
             curThread.start();
         }
 
         // waiting all threads
-        for (Thread curThread :
-                threadsList) {
-            try {
+        try {
+            for (Thread curThread : threadsList) {
                 curThread.join();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
             }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
-
         // clearing list of threads
         threadsList.clear();
     }
