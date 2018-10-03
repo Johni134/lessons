@@ -23,12 +23,13 @@ public class ArrayFillTest {
 
     /**
      * test simple method without threads
+     * @return long - execution time
      */
-    public void testSimpleMethod() {
+    public long testSimpleMethod() {
         initArray();
         final long beginTime = System.currentTimeMillis();
         fillArrayByFunction(arr, size, 0);
-        System.out.println(System.currentTimeMillis() - beginTime);
+        return (System.currentTimeMillis() - beginTime);
     }
 
     /**
@@ -51,11 +52,11 @@ public class ArrayFillTest {
      *
      * @param arrayCount we can use different arrays count
      */
-    public void testMethodWithDividingArrayByThreads(final int arrayCount) {
+    public long testMethodWithDividingArrayByThreads(final int arrayCount) {
         initArray();
         final long beginTime = System.currentTimeMillis();
         divideArrayAndFillByFunctionInThreads(arrayCount);
-        System.out.println(System.currentTimeMillis() - beginTime);
+        return (System.currentTimeMillis() - beginTime);
     }
 
     /**

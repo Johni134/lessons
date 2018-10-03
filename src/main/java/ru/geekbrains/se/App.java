@@ -12,8 +12,8 @@ public class App
     {
         ArrayFillTest arrayFillTest = new ArrayFillTest();
         // testing simple method without threads
-        arrayFillTest.testSimpleMethod();
+        System.out.println(arrayFillTest.testSimpleMethod());
         // testing method, which divide array for 2 parts and fill it in threads
-        arrayFillTest.testMethodWithDividingArrayByThreads(2);
+        System.out.println(arrayFillTest.testMethodWithDividingArrayByThreads(2));
     }
 }
