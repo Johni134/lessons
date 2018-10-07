@@ -15,7 +15,7 @@ public class ServerTaskMessageInput extends AbstractServerTask {
     @Override
     public void run() {
         final Scanner in = new Scanner(System.in);
-        final String message = "server:" + in.nextLine();
+        final String message = in.nextLine();
 
         if (CMD_EXIT.equals(message)) {
             server.exit();

@@ -2,7 +2,10 @@ package ru.geekbrains.se.server.impl;
 
 import lombok.Getter;
 import lombok.SneakyThrows;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import ru.geekbrains.se.api.ConnectionService;
+import ru.geekbrains.se.api.UserService;
 import ru.geekbrains.se.config.ChatConfig;
 import ru.geekbrains.se.server.Server;
 import ru.geekbrains.se.server.model.Connection;
@@ -19,18 +22,26 @@ import java.util.concurrent.ExecutorService;
 @Getter
 public class ChatServerRunner implements Server {
 
+    @NotNull
     private final ChatConfig config;
 
+    @NotNull
     private final ExecutorService executorService;
 
+    @NotNull
     private final ConnectionService connectionService;
 
+    @NotNull
+    private final UserService userService;
+
+    @Nullable
     private ServerSocket serverSocket;
 
-    ChatServerRunner(final ChatConfig config, final ExecutorService executorService) {
+    ChatServerRunner(@NotNull final ChatConfig config, @NotNull final ExecutorService executorService, @NotNull final UserService userService) {
         this.connectionService = new ConnectionServiceBean(this);
         this.config = config;
         this.executorService = executorService;
+        this.userService = userService;
     }
 
     @Override
@@ -41,6 +52,12 @@ public class ChatServerRunner implements Server {
     @Override
     public List<Connection> connections() {
         return connectionService.connections();
+    }
+
+    @NotNull
+    @Override
+    public UserService getUserService() {
+        return userService;
     }
 
     @Override
@@ -77,7 +94,8 @@ public class ChatServerRunner implements Server {
     @SneakyThrows
     public void exit() {
         connectionService.clear();
-        serverSocket.close();
+        if (serverSocket != null)
+            serverSocket.close();
         System.out.println("Server is closed");
         System.exit(0);
     }

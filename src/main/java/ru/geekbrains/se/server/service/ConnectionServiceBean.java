@@ -1,5 +1,6 @@
 package ru.geekbrains.se.server.service;
 
+import org.jetbrains.annotations.NotNull;
 import ru.geekbrains.se.api.ConnectionService;
 import ru.geekbrains.se.server.Server;
 import ru.geekbrains.se.server.model.Connection;
@@ -10,11 +11,14 @@ import java.util.List;
 
 public class ConnectionServiceBean implements ConnectionService {
 
+    @NotNull
     private final Server server;
 
+    @NotNull
     private final List<Connection> connections = new ArrayList<>();
 
-    public ConnectionServiceBean(Server server) {
+    @NotNull
+    public ConnectionServiceBean(@NotNull Server server) {
         this.server = server;
     }
 
@@ -31,6 +35,17 @@ public class ConnectionServiceBean implements ConnectionService {
         }
         return null;
     }
+
+//    @Override
+//    public void setLogin(Socket socket, String login) {
+//        User currentUser = server.getUserService().findByUser(login);
+//        if (currentUser == null) return;
+//        if (socket == null) return;
+//        for (final Connection connection : connections) {
+//            if (connection.getSocket().equals(socket))
+//                connection.setCurrentUser(currentUser);
+//        }
+//    }
 
     @Override
     public void add(Socket socket) {

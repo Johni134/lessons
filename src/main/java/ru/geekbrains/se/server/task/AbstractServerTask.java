@@ -6,7 +6,7 @@ public abstract class AbstractServerTask extends Thread {
 
     protected final Server server;
 
-    AbstractServerTask(Server server) {
+    protected AbstractServerTask(Server server) {
         this.server = server;
     }
 }

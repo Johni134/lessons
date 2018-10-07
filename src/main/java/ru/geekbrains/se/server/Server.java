@@ -1,5 +1,6 @@
 package ru.geekbrains.se.server;
 
+import ru.geekbrains.se.api.UserService;
 import ru.geekbrains.se.config.ChatConfig;
 import ru.geekbrains.se.server.model.Connection;
 import ru.geekbrains.se.server.task.AbstractServerTask;
@@ -18,6 +19,8 @@ public interface Server extends Runnable {
     ServerSocket getServerSocket();
 
     List<Connection> connections();
+
+    UserService getUserService();
 
     String getIdBySocket(Socket socket);
 
