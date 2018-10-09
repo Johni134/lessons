@@ -16,6 +16,7 @@ public class ServerTaskConnection extends AbstractServerTask {
         System.out.println("getServerSocket().accept()");
         final Socket socket = server.getServerSocket().accept();
         server.run(new ServerTaskConnection(server));
+        server.run(new ServerTaskKickUnauthorized(server, socket));
         server.run(new ServerTaskMessageRead(server, socket));
         server.add(socket);
     }

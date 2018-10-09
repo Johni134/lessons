@@ -24,6 +24,8 @@ public interface Server extends Runnable {
 
     String getIdBySocket(Socket socket);
 
+    Connection getConnectionBySocket(Socket socket);
+
     void run(AbstractServerTask task);
 
     void run();

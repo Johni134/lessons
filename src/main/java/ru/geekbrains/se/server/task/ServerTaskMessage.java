@@ -29,6 +29,8 @@ public class ServerTaskMessage extends AbstractServerTask {
 
         @NotNull final ObjectMapper objectMapper = new ObjectMapper();
         @NotNull PacketMessage packetMessage = objectMapper.readValue(message, PacketMessage.class);
+        packetMessage.setRequest(false);
+
         for (final Connection connection : server.connections()) {
             boolean isCurrentUserToSend = connection.getCurrentUser() != null
                     && connection.getCurrentUser().getLogin() != null

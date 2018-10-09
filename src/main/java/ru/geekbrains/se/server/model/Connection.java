@@ -35,6 +35,10 @@ public class Connection {
         this.currentUser = currentUser;
     }
 
+    public boolean isAuthorized() {
+        return currentUser != null;
+    }
+
     @SneakyThrows
     public void send(final String message) {
         @NotNull final DataOutputStream stream = new DataOutputStream(socket.getOutputStream());

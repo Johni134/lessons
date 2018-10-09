@@ -1,40 +1,27 @@
 package ru.geekbrains.se.client.impl;
 
+import lombok.Getter;
 import ru.geekbrains.se.api.ChatApp;
 import ru.geekbrains.se.client.Client;
 import ru.geekbrains.se.config.ChatConfig;
 
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 
+@ApplicationScoped
+@Getter
 public class ChatClient implements ChatApp {
 
-    private final ChatConfig config;
+    @Inject
+    private ChatConfig config;
 
-    private final ExecutorService executorService;
-
-    private final Client client;
-
-    public ChatClient() {
-        config = new ChatConfig();
-        executorService = Executors.newCachedThreadPool();
-        client = new ChatClientRunner(config, executorService);
-    }
+    @Inject
+    private Client client;
 
     public static void main(String[] args) {
         final ChatClient chatClient = new ChatClient();
         chatClient.getConfig().setPort(9090);
         chatClient.run();
-    }
-
-    @Override
-    public ExecutorService getExecutor() {
-        return executorService;
-    }
-
-    @Override
-    public ChatConfig getConfig() {
-        return config;
     }
 
     @Override

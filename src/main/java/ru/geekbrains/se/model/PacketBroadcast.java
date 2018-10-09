@@ -11,7 +11,6 @@ import org.jetbrains.annotations.NotNull;
 @NoArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class PacketBroadcast extends Packet {
-
     @NotNull
     private String message = "";
 

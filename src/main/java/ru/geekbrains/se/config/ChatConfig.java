@@ -27,9 +27,14 @@ public class ChatConfig {
     public final static String CMD_MESSAGE = "msg";
 
     @NotNull
+    public final static Integer KICKING_TIMER_SECONDS = 120;
+
+    @NotNull
+    public final static String KICKING_MSG = "Goodbye!";
+
+    @NotNull
     private Integer port = 8080;
 
     @NotNull
     private String host = "localhost";
-
 }

@@ -1,26 +1,26 @@
 package ru.geekbrains.se.server.service;
 
+import lombok.NoArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import ru.geekbrains.se.api.ConnectionService;
 import ru.geekbrains.se.server.Server;
 import ru.geekbrains.se.server.model.Connection;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
+@ApplicationScoped
+@NoArgsConstructor
 public class ConnectionServiceBean implements ConnectionService {
 
-    @NotNull
-    private final Server server;
+    @Inject
+    private Server server;
 
     @NotNull
     private final List<Connection> connections = new ArrayList<>();
-
-    @NotNull
-    public ConnectionServiceBean(@NotNull Server server) {
-        this.server = server;
-    }
 
     @Override
     public List<Connection> connections() {
@@ -35,17 +35,6 @@ public class ConnectionServiceBean implements ConnectionService {
         }
         return null;
     }
-
-//    @Override
-//    public void setLogin(Socket socket, String login) {
-//        User currentUser = server.getUserService().findByUser(login);
-//        if (currentUser == null) return;
-//        if (socket == null) return;
-//        for (final Connection connection : connections) {
-//            if (connection.getSocket().equals(socket))
-//                connection.setCurrentUser(currentUser);
-//        }
-//    }
 
     @Override
     public void add(Socket socket) {

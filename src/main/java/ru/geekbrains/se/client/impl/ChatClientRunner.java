@@ -9,16 +9,21 @@ import ru.geekbrains.se.client.task.ClientTaskMessageRead;
 import ru.geekbrains.se.client.task.ClientTaskMessageSend;
 import ru.geekbrains.se.config.ChatConfig;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 @Getter
+@ApplicationScoped
 public class ChatClientRunner implements Client {
 
-    private final ChatConfig config;
+    @Inject
+    private ChatConfig config;
 
     private final ExecutorService executorService;
 
@@ -28,9 +33,8 @@ public class ChatClientRunner implements Client {
 
     private DataOutputStream out;
 
-    ChatClientRunner(ChatConfig config, ExecutorService executorService) {
-        this.config = config;
-        this.executorService = executorService;
+    ChatClientRunner() {
+        this.executorService = Executors.newCachedThreadPool();
     }
 
     public static void main(String[] args) {

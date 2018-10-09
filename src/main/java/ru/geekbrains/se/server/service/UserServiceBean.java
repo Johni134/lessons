@@ -18,11 +18,6 @@ public class UserServiceBean implements UserService {
     @NotNull
     private Map<String, User> users = new LinkedHashMap<>();
 
-    {
-        init();
-    }
-
-    // annotation not working...why?
     @PostConstruct
     private void init() {
         registry("admin", "admin");

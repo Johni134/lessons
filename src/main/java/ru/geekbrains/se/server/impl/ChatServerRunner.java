@@ -1,6 +1,7 @@
 package ru.geekbrains.se.server.impl;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.SneakyThrows;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -9,39 +10,40 @@ import ru.geekbrains.se.api.UserService;
 import ru.geekbrains.se.config.ChatConfig;
 import ru.geekbrains.se.server.Server;
 import ru.geekbrains.se.server.model.Connection;
-import ru.geekbrains.se.server.service.ConnectionServiceBean;
 import ru.geekbrains.se.server.task.AbstractServerTask;
 import ru.geekbrains.se.server.task.ServerTaskConnection;
 import ru.geekbrains.se.server.task.ServerTaskMessageInput;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 @Getter
+@ApplicationScoped
+@NoArgsConstructor
 public class ChatServerRunner implements Server {
 
-    @NotNull
-    private final ChatConfig config;
+    @Inject
+    private ChatConfig config;
+
+    @Inject
+    private UserService userService;
+
+    @Inject
+    private ConnectionService connectionService;
 
     @NotNull
     private final ExecutorService executorService;
 
-    @NotNull
-    private final ConnectionService connectionService;
-
-    @NotNull
-    private final UserService userService;
-
     @Nullable
     private ServerSocket serverSocket;
 
-    ChatServerRunner(@NotNull final ChatConfig config, @NotNull final ExecutorService executorService, @NotNull final UserService userService) {
-        this.connectionService = new ConnectionServiceBean(this);
-        this.config = config;
-        this.executorService = executorService;
-        this.userService = userService;
+    {
+        this.executorService = Executors.newCachedThreadPool();
     }
 
     @Override
@@ -68,6 +70,11 @@ public class ChatServerRunner implements Server {
     }
 
     @Override
+    public Connection getConnectionBySocket(Socket socket) {
+        return connectionService.get(socket);
+    }
+
+    @Override
     public void run(AbstractServerTask task) {
         executorService.submit(task);
     }
@@ -86,8 +93,10 @@ public class ChatServerRunner implements Server {
     }
 
     @Override
+    @SneakyThrows
     public void remove(Socket socket) {
         connectionService.remove(socket);
+        socket.close();
     }
 
     @Override

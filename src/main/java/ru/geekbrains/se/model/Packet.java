@@ -17,4 +17,7 @@ public class Packet {
 
     private PacketType type = PacketType.NONE;
 
+    private boolean isRequest = true;
+
+    private Long timestamp = System.currentTimeMillis();
 }
