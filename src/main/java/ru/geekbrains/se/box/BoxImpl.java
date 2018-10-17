@@ -9,7 +9,7 @@ import java.util.List;
 @NoArgsConstructor
 public class BoxImpl<T extends Fruit> implements Box<T> {
 
-    private ArrayList<T> fruitArray;
+    private List<T> fruitArray;
 
     {
         fruitArray = new ArrayList<>();
