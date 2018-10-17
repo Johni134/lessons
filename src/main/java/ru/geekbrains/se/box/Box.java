@@ -2,13 +2,19 @@ package ru.geekbrains.se.box;
 
 import ru.geekbrains.se.model.Fruit;
 
+import java.util.List;
+
 public interface Box<T extends Fruit> {
 
-    Number getWeight();
+    Float getWeight();
 
     boolean compare(Box<?> box);
 
     void add(T fruit);
 
-    void pour(Box<T> box);
+    void addAll(List<T> fruitList);
+
+    void move(Box<T> box);
+
+    List<T> getFruits();
 }

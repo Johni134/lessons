@@ -16,6 +16,12 @@ public class ArrayUtilsImpl<T> implements ArrayUtils {
         this.array = array;
     }
 
+    /**
+     * Swapping elements in array
+     *
+     * @param firstPos  first position to swap
+     * @param secondPos second position to swap
+     */
     @Override
     public void swapElements(final int firstPos, final int secondPos) {
         T tmpValue;

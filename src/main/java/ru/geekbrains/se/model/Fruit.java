@@ -5,6 +5,6 @@ import lombok.Getter;
 @Getter
 public class Fruit {
 
-    private Number weight;
+    private Float weight;
 
 }
