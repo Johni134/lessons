@@ -16,20 +16,22 @@ import java.util.UUID;
 @ApplicationScoped
 public class UserServiceBean implements UserService {
 
-    private UserEntityService userEntityService;
-
-    {
-        try {
-            userEntityService = new UserEntityService();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
     @PostConstruct
     private void init() {
 
-        if (userEntityService.countAll() == 0) {
+        Long usersCount = 0L;
+        UserEntityService userEntityService = null;
+        try {
+            userEntityService = new UserEntityService();
+            usersCount = userEntityService.countAll();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (userEntityService != null)
+                userEntityService.sqlSession.close();
+        }
+
+        if (usersCount == 0) {
             registry("admin", "admin");
             registry("test", "test");
         }
@@ -38,7 +40,18 @@ public class UserServiceBean implements UserService {
     @Override
     public User findByUser(String login) {
         if (login == null || login.isEmpty()) return null;
-        return userEntityService.findByLogin(login);
+        UserEntityService userEntityService = null;
+        User foundUser = null;
+        try {
+            userEntityService = new UserEntityService();
+            foundUser = userEntityService.findByLogin(login);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (userEntityService != null)
+                userEntityService.sqlSession.close();
+        }
+        return foundUser;
     }
 
     @Override
@@ -59,14 +72,35 @@ public class UserServiceBean implements UserService {
         user.setId(UUID.randomUUID().toString());
         user.setLogin(login);
         user.setPassword(BCrypt.hashpw(password, BCrypt.gensalt()));
-        userEntityService.insert(user);
+        UserEntityService userEntityService = null;
+        try {
+            userEntityService = new UserEntityService();
+            userEntityService.insert(user);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        } finally {
+            if (userEntityService != null)
+                userEntityService.sqlSession.close();
+        }
         return true;
     }
 
     @Override
     public boolean exists(String login) {
         if (login == null || login.isEmpty()) return false;
-        return (userEntityService.findByLogin(login) != null);
+        UserEntityService userEntityService = null;
+        boolean isExist = false;
+        try {
+            userEntityService = new UserEntityService();
+            isExist = (userEntityService.findByLogin(login) != null);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (userEntityService != null)
+                userEntityService.sqlSession.close();
+        }
+        return isExist;
     }
 
     @Override
@@ -76,7 +110,17 @@ public class UserServiceBean implements UserService {
         if (user == null) return false;
         if (exists(newLogin)) return false;
         user.setLogin(newLogin);
-        userEntityService.updateLogin(user);
+        UserEntityService userEntityService = null;
+        try {
+            userEntityService = new UserEntityService();
+            userEntityService.updateLogin(user);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        } finally {
+            if (userEntityService != null)
+                userEntityService.sqlSession.close();
+        }
         return true;
     }
 
@@ -87,7 +131,17 @@ public class UserServiceBean implements UserService {
         @Nullable final User user = findByUser(login);
         if (user == null) return false;
         user.setPassword(BCrypt.hashpw(passwordNew, BCrypt.gensalt()));
-        userEntityService.updatePassword(user);
+        UserEntityService userEntityService = null;
+        try {
+            userEntityService = new UserEntityService();
+            userEntityService.updatePassword(user);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        } finally {
+            if (userEntityService != null)
+                userEntityService.sqlSession.close();
+        }
         return true;
     }
 }
