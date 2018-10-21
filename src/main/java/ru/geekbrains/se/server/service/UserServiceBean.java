@@ -29,7 +29,7 @@ public class UserServiceBean implements UserService {
     @PostConstruct
     private void init() {
 
-        if (userEntityService.findAll().size() == 0) {
+        if (userEntityService.countAll() == 0) {
             registry("admin", "admin");
             registry("test", "test");
         }

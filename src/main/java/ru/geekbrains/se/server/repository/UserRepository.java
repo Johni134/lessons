@@ -12,6 +12,9 @@ public interface UserRepository {
     @Select("SELECT * FROM users")
     List<User> findAll();
 
+    @Select("SELECT COUNT(*) AS userCount FROM users")
+    Long countAll();
+
     @Select("SELECT * FROM users WHERE login = #{login}")
     User findByLogin(String login);
 

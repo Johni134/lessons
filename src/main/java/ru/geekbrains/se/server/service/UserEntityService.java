@@ -34,4 +34,7 @@ class UserEntityService extends AbstractService {
         userRepository.insert(user);
     }
 
+    Long countAll() {
+        return userRepository.countAll();
+    }
 }
