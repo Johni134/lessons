@@ -51,6 +51,11 @@ public class ClientTaskMessageInput extends AbstractClientTask {
             return;
         }
 
+        if (CMD_CHANGE_LOGIN.equals(message)) {
+            client.run(new ClientTaskChangeLogin(client));
+            return;
+        }
+
         System.out.println();
         client.run(new ClientTaskMessageInput(client));
     }

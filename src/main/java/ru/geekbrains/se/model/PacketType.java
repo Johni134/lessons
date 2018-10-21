@@ -9,6 +9,7 @@ public enum PacketType {
     REGISTRY,
     LOGOUT,
     LOGIN,
+    CHANGE_LOGIN,
 
     MESSAGE,
     BROADCAST

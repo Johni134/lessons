@@ -27,6 +27,9 @@ public class ChatConfig {
     public final static String CMD_MESSAGE = "msg";
 
     @NotNull
+    public final static String CMD_CHANGE_LOGIN = "chlogin";
+
+    @NotNull
     public final static Integer KICKING_TIMER_SECONDS = 120;
 
     @NotNull

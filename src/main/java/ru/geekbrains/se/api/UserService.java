@@ -1,7 +1,7 @@
 package ru.geekbrains.se.api;
 
 import org.jetbrains.annotations.Nullable;
-import ru.geekbrains.se.model.User;
+import ru.geekbrains.se.server.entity.User;
 
 public interface UserService {
 
@@ -20,9 +20,9 @@ public interface UserService {
 
     boolean exists(@Nullable String login);
 
-    boolean setNick(
+    boolean setLogin(
             @Nullable String login,
-            @Nullable String nick
+            @Nullable String newLogin
     );
 
     boolean setPassword(

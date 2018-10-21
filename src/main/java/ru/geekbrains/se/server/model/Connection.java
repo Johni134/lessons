@@ -4,8 +4,8 @@ import lombok.Getter;
 import lombok.SneakyThrows;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import ru.geekbrains.se.model.User;
 import ru.geekbrains.se.server.Server;
+import ru.geekbrains.se.server.entity.User;
 
 import java.io.DataOutputStream;
 import java.net.Socket;

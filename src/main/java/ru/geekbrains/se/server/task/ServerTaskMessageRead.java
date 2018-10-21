@@ -51,6 +51,10 @@ public class ServerTaskMessageRead extends AbstractServerTask {
                     case BROADCAST:
                         server.run(new ServerTaskMessageBroadcast(server, message));
                         break;
+
+                    case CHANGE_LOGIN:
+                        server.run(new ServerTaskChangeLogin(server, socket, message));
+                        break;
                 }
             }
             server.run(new ServerTaskMessageRead(server, socket));
