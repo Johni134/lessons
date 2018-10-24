@@ -4,14 +4,20 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
 import org.jetbrains.annotations.NotNull;
 import ru.geekbrains.se.api.UserService;
+import ru.geekbrains.se.model.Packet;
 import ru.geekbrains.se.model.PacketLogin;
 import ru.geekbrains.se.model.PacketMessage;
 import ru.geekbrains.se.server.Server;
+import ru.geekbrains.se.server.impl.FileServiceImpl;
 import ru.geekbrains.se.server.model.Connection;
+import ru.geekbrains.se.server.utils.FileService;
 
 import java.net.Socket;
 
 public class ServerTaskLogin extends AbstractServerTask {
+
+    @NotNull
+    private final FileService fileService;
 
     @NotNull
     private final String message;
@@ -26,6 +32,7 @@ public class ServerTaskLogin extends AbstractServerTask {
         super(server);
         this.message = message;
         this.userService = server.getUserService();
+        this.fileService = new FileServiceImpl();
         this.socket = socket;
     }
 
@@ -38,14 +45,16 @@ public class ServerTaskLogin extends AbstractServerTask {
         @NotNull PacketMessage packetMessage = new PacketMessage();
 
         boolean success = userService.check(packetLogin.getLogin(), packetLogin.getPassword());
-        if (success) {
-            packetMessage.setMessage("Success!");
-        } else {
-            packetMessage.setMessage("Failed!");
-        }
+        packetMessage.setMessage((success ? "Success!" : "Failed!"));
+
         for (final Connection connection : server.connections()) {
             if (connection.getSocket().equals(socket)) {
                 connection.setCurrentUser(userService.findByUser(packetLogin.getLogin()));
+                if (success) {
+                    for (Packet packet : fileService.readFromFileToUser(packetLogin.getLogin())) {
+                        connection.send(objectMapper.writeValueAsString(packet));
+                    }
+                }
                 connection.send(objectMapper.writeValueAsString(packetMessage));
             }
 

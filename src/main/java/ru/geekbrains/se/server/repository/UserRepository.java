@@ -1,5 +1,6 @@
 package ru.geekbrains.se.server.repository;
 
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
@@ -26,4 +27,7 @@ public interface UserRepository {
 
     @Insert("INSERT INTO users (id, login, password) VALUES (#{id}, #{login}, #{password})")
     void insert(User user);
+
+    @Delete("DELETE FROM users WHERE id = #{id}")
+    void delete(User user);
 }

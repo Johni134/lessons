@@ -5,7 +5,9 @@ import lombok.SneakyThrows;
 import org.jetbrains.annotations.NotNull;
 import ru.geekbrains.se.model.PacketMessage;
 import ru.geekbrains.se.server.Server;
+import ru.geekbrains.se.server.impl.FileServiceImpl;
 import ru.geekbrains.se.server.model.Connection;
+import ru.geekbrains.se.server.utils.FileService;
 
 import java.net.Socket;
 
@@ -17,10 +19,14 @@ public class ServerTaskMessage extends AbstractServerTask {
     @NotNull
     private final Socket socket;
 
+    @NotNull
+    private final FileService fileService;
+
     ServerTaskMessage(Server server, @NotNull final Socket socket, @NotNull final String message) {
         super(server);
         this.message = message;
         this.socket = socket;
+        fileService = new FileServiceImpl();
     }
 
     @Override
@@ -30,6 +36,8 @@ public class ServerTaskMessage extends AbstractServerTask {
         @NotNull final ObjectMapper objectMapper = new ObjectMapper();
         @NotNull PacketMessage packetMessage = objectMapper.readValue(message, PacketMessage.class);
         packetMessage.setRequest(false);
+
+        fileService.addToFile(packetMessage);
 
         for (final Connection connection : server.connections()) {
             boolean isCurrentUserToSend = connection.getCurrentUser() != null

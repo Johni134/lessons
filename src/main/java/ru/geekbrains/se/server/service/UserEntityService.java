@@ -37,4 +37,8 @@ class UserEntityService extends AbstractService {
     Long countAll() {
         return userRepository.countAll();
     }
+
+    public void delete(User user) {
+        userRepository.delete(user);
+    }
 }

@@ -4,6 +4,9 @@ import lombok.Getter;
 import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.File;
+import java.io.IOException;
+
 @Setter
 @Getter
 public class ChatConfig {
@@ -40,4 +43,19 @@ public class ChatConfig {
 
     @NotNull
     private String host = "localhost";
+
+    public static boolean checkFileNotExists(final String filename, final boolean createIfNotExists) {
+        final File file = new File(filename);
+        if (!file.exists()) {
+            if (!createIfNotExists) return true;
+            try {
+                file.getParentFile().mkdirs();
+                if (!file.createNewFile()) return true;
+            } catch (IOException e) {
+                e.printStackTrace();
+                return true;
+            }
+        }
+        return false;
+    }
 }
