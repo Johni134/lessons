@@ -13,6 +13,8 @@ import java.util.List;
 public class FileServiceImpl implements FileService {
 
     private final String filename = "log\\serverLog.txt";
+    private static final int MAX_SIZE_TO_USER = 100;
+
 
     @Override
     public boolean addToFile(final Packet packet) {
@@ -33,22 +35,23 @@ public class FileServiceImpl implements FileService {
         if (ChatConfig.checkFileNotExists(filename, false)) return arrayList;
         try {
             final FileInputStream fileInputStream = new FileInputStream(filename);
-            final ObjectInputStream in = new ObjectInputStream(fileInputStream);
             try {
                 while (true) {
+                    ObjectInputStream in = new ObjectInputStream(fileInputStream);
                     Packet packet = (Packet) in.readObject();
                     if ((packet instanceof PacketMessage && ((PacketMessage) packet).getLogin().equals(login)) || packet instanceof PacketBroadcast) {
                         arrayList.add(packet);
                     }
+                    in.close();
                 }
             } catch (EOFException e) {
-                in.close();
+                e.printStackTrace();
             }
 
         } catch (Exception e) {
             e.printStackTrace();
         }
         int size = arrayList.size();
-        return (size > 100 ? arrayList.subList(size - 101, size - 1) : arrayList);
+        return (size > MAX_SIZE_TO_USER ? arrayList.subList(size - MAX_SIZE_TO_USER - 1, size - 1) : arrayList);
     }
 }
