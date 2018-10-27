@@ -50,12 +50,12 @@ public class ServerTaskLogin extends AbstractServerTask {
         for (final Connection connection : server.connections()) {
             if (connection.getSocket().equals(socket)) {
                 connection.setCurrentUser(userService.findByUser(packetLogin.getLogin()));
+                connection.send(objectMapper.writeValueAsString(packetMessage));
                 if (success) {
                     for (Packet packet : fileService.readFromFileToUser(packetLogin.getLogin())) {
                         connection.send(objectMapper.writeValueAsString(packet));
                     }
                 }
-                connection.send(objectMapper.writeValueAsString(packetMessage));
             }
 
         }

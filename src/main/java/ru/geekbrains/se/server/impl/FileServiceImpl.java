@@ -31,19 +31,21 @@ public class FileServiceImpl implements FileService {
 
     @Override
     public List<Packet> readFromFileToUser(final String login) {
-        ArrayList<Packet> arrayList = new ArrayList<>();
+        List<Packet> arrayList = new ArrayList<>();
+        Packet packet;
+        ObjectInputStream in;
         if (ChatConfig.checkFileNotExists(filename, false)) return arrayList;
         try {
             final FileInputStream fileInputStream = new FileInputStream(filename);
             try {
-                while (true) {
-                    ObjectInputStream in = new ObjectInputStream(fileInputStream);
-                    Packet packet = (Packet) in.readObject();
+                while (fileInputStream.available() > 0) {
+                    in = new ObjectInputStream(fileInputStream);
+                    packet = (Packet) in.readObject();
                     if ((packet instanceof PacketMessage && ((PacketMessage) packet).getLogin().equals(login)) || packet instanceof PacketBroadcast) {
                         arrayList.add(packet);
                     }
-                    in.close();
                 }
+                fileInputStream.close();
             } catch (EOFException e) {
                 e.printStackTrace();
             }

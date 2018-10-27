@@ -79,6 +79,7 @@ public class ChatClientRunner implements Client {
     @SneakyThrows
     public void exit() {
         socket.close();
+        executorService.shutdownNow();
         System.out.println("Chat client disconnected...");
         System.exit(0);
     }

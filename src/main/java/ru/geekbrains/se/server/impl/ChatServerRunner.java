@@ -102,6 +102,7 @@ public class ChatServerRunner implements Server {
     @Override
     @SneakyThrows
     public void exit() {
+        executorService.shutdownNow();
         connectionService.clear();
         if (serverSocket != null)
             serverSocket.close();
