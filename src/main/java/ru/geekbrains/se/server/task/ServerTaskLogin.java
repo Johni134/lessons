@@ -9,8 +9,10 @@ import ru.geekbrains.se.model.PacketLogin;
 import ru.geekbrains.se.model.PacketMessage;
 import ru.geekbrains.se.server.Server;
 import ru.geekbrains.se.server.impl.FileServiceImpl;
+import ru.geekbrains.se.server.impl.LogServiceImpl;
 import ru.geekbrains.se.server.model.Connection;
 import ru.geekbrains.se.server.utils.FileService;
+import ru.geekbrains.se.server.utils.LogService;
 
 import java.net.Socket;
 
@@ -28,11 +30,15 @@ public class ServerTaskLogin extends AbstractServerTask {
     @NotNull
     private final Socket socket;
 
+    @NotNull
+    private final LogService logService;
+
     ServerTaskLogin(Server server, @NotNull Socket socket, @NotNull String message) {
         super(server);
         this.message = message;
         this.userService = server.getUserService();
         this.fileService = new FileServiceImpl();
+        this.logService = new LogServiceImpl();
         this.socket = socket;
     }
 
@@ -55,6 +61,7 @@ public class ServerTaskLogin extends AbstractServerTask {
                     for (Packet packet : fileService.readFromFileToUser(packetLogin.getLogin())) {
                         connection.send(objectMapper.writeValueAsString(packet));
                     }
+                    logService.userConnected(connection.getCurrentUser());
                 }
             }
 
