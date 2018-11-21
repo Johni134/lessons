@@ -14,7 +14,7 @@ import java.util.TreeMap;
 
 public class TestClass {
 
-    private int testIterator;
+    private int testIterator = 0;
 
     public static void start(@NotNull final String curClassStr) {
         try {
